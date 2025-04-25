@@ -1,0 +1,32 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Novo Requerimento{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static "requerimentos/css/novo.css" %}">
+{% endblock head %}
+
+
+{% block content %}
+    <main>
+        <div class="form-container">
+            <h2>Novo Requerimento</h2>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <label for="id_titulo">Título:</label>
+                {{ form.titulo }}
+
+                <label for="id_descricao">Descrição:</label>
+                {{ form.descricao }}
+
+                <label for="id_arquivo_anexo">Arquivo anexo:</label>
+                {{ form.arquivo_anexo }}
+
+                <button type="submit">Enviar</button>
+            </form>
+        </div>
+    </main>
+
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Meus Requerimentos{% endblock %}
+
+{% block content %}
+    <h2>Requerimentos</h2>
+    <ul>
+        {% for r in requerimentos %}
+            <li>
+                <strong>{{ r.titulo }}</strong> - {{ r.status }}<br>
+                Criado em: {{ r.data_criacao|date:"d/m/Y H:i" }}
+            </li>
+        {% empty %}
+            <li>Nenhum requerimento encontrado.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
