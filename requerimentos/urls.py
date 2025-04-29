@@ -2,6 +2,7 @@ from django.urls import path
 import views
 
 urlpatterns = [
+    
     # Tipo requerimento:
     path('listas_tiporequerimento/', views.listas_tiporequerimento, name='tiporequerimento'),
     path('listas_tiporequerimento/criado_requerimento', views.create_requerimento, name='create-requerimento'),
