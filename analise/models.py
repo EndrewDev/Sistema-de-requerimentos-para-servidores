@@ -12,3 +12,4 @@ class HistoricoMovimentacao(models.Model):
 
     def __str__(self):
         return f"{self.status} - {self.data.strftime('%d/%m/%Y %H:%M')}"
+    
