@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import TipoRequerimento, Processo
+from .forms import TiporequerimentosForm, ProcessoForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
@@ -20,20 +21,30 @@ def listas_tiporequerimento(request):
 @login_required
 def create_requerimento(request):
     if request.method == 'POST':
-        titulo                  = request.POST.get('titulo')
-        texto_padrao            = request.POST.get('texto_padrao')
-        documentos_obrigatorios = request.POST.get('documentos_obrigatorios')
+        # Trabalhando parte com forms
+        reuqerimentos_forms = TiporequerimentosForm(request.POST, request.FILES)
+        if reuqerimentos_forms.is_valid():
+            reuqerimentos_forms.save()
+            messages.success(request, "Criado requerimento com sucesso")
+            return redirect('listas-requerimentos')
+        else: 
+            reuqerimentos_forms = TiporequerimentosForm
 
-        requerimento = requerimento (
-            titulo=titulo,
-            texto_padrao=texto_padrao,
-            documentos_obrigatorios=documentos_obrigatorios,
-        )
-        requerimento.save()
+        # Trabalhando só com models
+        # titulo                  = request.POST.get('titulo')
+        # texto_padrao            = request.POST.get('texto_padrao')
+        # documentos_obrigatorios = request.POST.get('documentos_obrigatorios')
 
-        messages.success(request, "Requerimento criado com sucesso")
+        # requerimento = requerimento (
+        #     titulo=titulo,
+        #     texto_padrao=texto_padrao,
+        #     documentos_obrigatorios=documentos_obrigatorios,
+        # )
+        # requerimento.save()
+
+        # messages.success(request, "Requerimento criado com sucesso")
     
-        return redirect('tiporequerimento')
+        # return redirect('tiporequerimento')
 
     return render(request, 'criado_requerimento.html')
 
@@ -86,32 +97,40 @@ def listas_processo(request):
 @login_required
 def criado_processo(request):
     if request.method == "POST":
-        servidor       = request.POST.get('servidor')
-        tipo           = request.POST.get('tipo')
-        documentos     = request.POST.get('documentos')
-        info_complater = request.POST.get('info_complater')
-        status         = request.POST.get('status')
-        criado_em      = request.POST.get('criado_em')
-        atualizado_em  = request.POST.get('atualizado_em')
-        bloquaedo       = request.POST.get('bloqueado')
+        # Trabalho com forms:
+        processo_forms = ProcessoForm(request.POST, request.FILES)
+        if processo_forms.is_valid():
+            processo_forms.save()
 
-        processo = processo (
-            servidor=servidor,
-            tipo=tipo,
-            documentos=documentos,
-            info_complater=info_complater,
-            status=status,
-            criado_em=criado_em,
-            atualizado_em=atualizado_em,
-            bloquaedo=bloquaedo,
-        )
-        processo.save()
+
+        # Trabalho só com models
+        # servidor       = request.POST.get('servidor')
+        # tipo           = request.POST.get('tipo')
+        # documentos     = request.POST.get('documentos')
+        # info_complater = request.POST.get('info_complater')
+        # status         = request.POST.get('status')
+        # criado_em      = request.POST.get('criado_em')
+        # atualizado_em  = request.POST.get('atualizado_em')
+        # bloquaedo       = request.POST.get('bloqueado')
+
+        # processo = processo (
+        #     servidor=servidor,
+        #     tipo=tipo,
+        #     documentos=documentos,
+        #     info_complater=info_complater,
+        #     status=status,
+        #     criado_em=criado_em,
+        #     atualizado_em=atualizado_em,
+        #     bloquaedo=bloquaedo,
+        # )
+        # processo.save()
 
         messages.success(request, "Processo criado com sucesso")
-
-        return redirect('processo')
+        return redirect('listas-processos')
+    else: 
+        processo_forms = ProcessoForm
     
-    return render(request, 'criado_processo.html')
+    return render(request, 'criado_processo.html', {'criado-processo': processo_forms})
 
 # Atualizar processo
 @login_required
@@ -148,9 +167,9 @@ def atualizar_processo(request, pk):
 
         messages.success(request, 'Processo atualizado com sucesso')
 
-        return redirect('processo')
+        return redirect('listas-processos')
     
-    return render(request, 'atualizado_processo')
+    return render(request, 'atualizado_processo.html')
 
 @login_required
 def delete_processo(request, pk):
