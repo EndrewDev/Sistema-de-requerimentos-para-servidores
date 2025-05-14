@@ -7,18 +7,16 @@ from django.contrib import messages
 
 def create_user(request):
     if request.method == "POST":
-        username    = request.POST.get('username')
-        password    = request.POST.get("password")
-        first_name   = request.POST.get('fisrt_name')
-        last_name   = request.POST.get('last_name')
-        email       = request.POST.get("email")
-        cpf         = request.POST.get("cpf")
-        phone       = request.POST.get("phone")
-        cep         = request.POST.get("cep")
-        address     = request.POST.get("address")   
-        number_home = request.POST.get("number_home")
+        matricula      = request.POST.get('matricula')
+        tipo_ususario  = request.POST.get('username')
+        rg             = request.POST.get('rg')
+        cpf            = request.POST.get("cpf")
+        address        = request.POST.get("address")   
+        number_address = request.POST.get("number_address")
+        bairro         = request.POST.get('bairro')
+        numero_contato = request.POST.get("numero_contato")
 
-        if not all[username, password, first_name, last_name, email, cpf, phone, cep, address, number_home]:
+        if not all[matricula, tipo_ususario, rg, cpf, address, number_address, bairro, numero_contato]:
             messages.error(request, "Todos os campos são obrigatórios")
             return redirect('create_user')
         
@@ -27,19 +25,17 @@ def create_user(request):
             return redirect("create-user")
         
         user = Usuario.objects.create_user(
-            username=username,
-            password=password,
-            first_name=first_name,
-            last_name=last_name,
-            email=email,
+            matricula=matricula,
+            tipo_ususario=tipo_ususario,
+            rg=rg,
             cpf=cpf,
-            phone=phone,
-            cep=cep,
             address=address,
-            number_home=number_home,
+            number_address=number_address,
+            bairro=bairro,
+            numero_contato=numero_contato,
             )
 
-        messages.success(request, f"{username} cadastro com sucesso!")
+        messages.success(request, f"{tipo_ususario} cadastro com sucesso!")
         return redirect('home')
 
     return render(request, 'user.html')
