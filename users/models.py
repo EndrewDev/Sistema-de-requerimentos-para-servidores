@@ -30,7 +30,7 @@ class Usuario(AbstractUser):
     bairro = models.CharField(max_length=100, default="Centro", blank=False, null=False, verbose_name="Bairro")
     cep = models.CharField(default="00000-000", verbose_name="CEP")
     numero_contato = models.CharField(default="(00) 00000-0000", blank=True, null=True, verbose_name="Número contato")
-    funcao = models.ForeignKey(Funcao, on_delete=models.CASCADE, blank=True, null=True )
+    funcao = models.ForeignKey(Funcao, on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):
         return self.matricula
